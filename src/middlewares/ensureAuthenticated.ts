@@ -18,6 +18,7 @@ export function ensureAuthenticated(
     if(!authToken) {
         response.status(401).end();
     }
+    
     // Ignora o primeiro item do array e coloca o segundo na variável token
     const [, token] = authToken.split(" ")
 

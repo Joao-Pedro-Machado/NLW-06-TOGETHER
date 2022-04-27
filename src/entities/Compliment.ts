@@ -20,7 +20,7 @@ class Compliment {
     @Column()
     user_receiver: string;
 
-    @JoinColumn({name: "tag_id"})
+    @JoinColumn({name: "user_sender"})
     @ManyToOne(() => User)
     userReceiver: User;
 

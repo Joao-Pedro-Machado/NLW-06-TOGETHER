@@ -35,8 +35,11 @@ class AuthenticateUserService {
 
         // Gerar token
         const token = sign(
-            {
-                email: user.email
+            {   
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                admin: user.admin
             },
             "4f93ac9d10cb751b8c9c646bc9dbccb9",
             {

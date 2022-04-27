@@ -1,5 +1,6 @@
 import { getCustomRepository } from "typeorm"
 import { ComplimentsRepositories } from "../repositories/ComplimentsRepositories"
+import { TagsRepositories } from '../repositories/TagsRepositories';
 import { UsersRepositories } from "../repositories/UserRepositories"
 
 
@@ -16,6 +17,7 @@ class CreateComplimentService {
     async execute({tag_id, user_sender, user_receiver, message}) {
         const complimentRepositories = getCustomRepository(ComplimentsRepositories)
         const userRepositories = getCustomRepository(UsersRepositories)
+        const tagsRepositories = getCustomRepository(TagsRepositories)
 
         
         if(user_sender === user_receiver) {
@@ -28,13 +30,17 @@ class CreateComplimentService {
             throw new Error("User Receiver does not exist")
         }
 
+        const tag = await tagsRepositories.findOne(tag_id)
+        if(!tag) {
+            throw new Error("Tag does not exist")
+        }
+
         const compliment = complimentRepositories.create({
-            tag_id,
+            tag,
             user_receiver,
             user_sender,
             message
         })
-        //8214ed76-563c-4584-ba4a-2f3b7de5acc4
 
         await complimentRepositories.save(compliment)
         

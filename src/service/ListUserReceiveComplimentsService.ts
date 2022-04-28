@@ -1,3 +1,4 @@
+import { classToPlain } from 'class-transformer';
 import { getCustomRepository } from "typeorm"
 import { ComplimentsRepositories } from "../repositories/ComplimentsRepositories"
 import { TagsRepositories } from '../repositories/TagsRepositories';
@@ -12,21 +13,10 @@ class ListUserReceiveComplimentsService {
             where: {
                 user_receiver: user_id
             },
+            relations: ["userSender", "userReceiver", "tag"]
         });
 
-        compliments.map(async compliment => {
-            const tag = await tagsRepositories.findOne({
-                where: {
-                    id: compliment.tag_id
-                }
-            })
-
-            compliment.tag = tag
-
-            console.log(compliment);            
-        })
-
-        return compliments;
+        return classToPlain(compliments);
     }
 }
 

@@ -1,22 +1,20 @@
-import { getCustomRepository } from "typeorm"
-import { ComplimentsRepositories } from "../repositories/ComplimentsRepositories"
-import { UsersRepositories } from "../repositories/UserRepositories"
-
-
+import { classToPlain } from 'class-transformer';
+import { getCustomRepository } from 'typeorm';
+import { ComplimentsRepositories } from '../repositories/ComplimentsRepositories';
 
 class ListUserSendComplimentsService {
+  async execute(user_id: string) {
+    const complimentRepositories = getCustomRepository(ComplimentsRepositories);
 
-    async execute(user_id: string){
-        const complimentRepositories = getCustomRepository(ComplimentsRepositories)
+    const compliments = await complimentRepositories.find({
+      where: {
+        user_sender: user_id,
+      },
+      relations: ['userSender', 'userReceiver', 'tag'],
+    });
 
-        const compliments = await complimentRepositories.find({
-            where: {
-                user_sender: user_id
-            },
-        });
-
-        return compliments;
-    }
+    return classToPlain(compliments);
+  }
 }
 
-export { ListUserSendComplimentsService }
+export { ListUserSendComplimentsService };

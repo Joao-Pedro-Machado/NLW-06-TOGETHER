@@ -26,9 +26,9 @@ router.post("/newTag", ensureAuthenticated, ensureAdmin, createTagController.han
 router.post("/login", authenticateUserController.handle);
 router.post("/newCompliment", ensureAuthenticated, createComplimentController.handle);
 
-router.get("/users/compliments/send", ensureAuthenticated, listUserSendComplimentsController.handle);
+router.get("/users/compliments/sent", ensureAuthenticated, listUserSendComplimentsController.handle);
 router.get("/users/compliments/receive", ensureAuthenticated, listUserReceiveComplimentsController.handle);
-router.get("/tags/:tagId?", ensureAuthenticated, listTagsController.handle);
+router.get("/tags", ensureAuthenticated, listTagsController.handle);
 router.get("/users", ensureAuthenticated, listUsersController.handle);
 
 export { router };
